@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "npm node index.ts",
+    "dev": "node src/index.ts",
     "start": "npx ts-node src/index.ts"
   },
   "keywords": [],

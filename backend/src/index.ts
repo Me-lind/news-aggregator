@@ -22,15 +22,17 @@ const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 
+app.get('/', (req, res) => {
+    res.send('Server is running 🎉😁');
+});
+
 app.use('/api', newsRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api', subscriptionRoutes);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
 
-startNewsPolling(io); 
+
+startNewsPolling(io);
 
 io.on('connection', (socket) => {
     console.log(`User connected: ${socket.id}`);
@@ -45,6 +47,6 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
