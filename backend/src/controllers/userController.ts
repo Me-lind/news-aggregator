@@ -2,15 +2,14 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import pool from '../config/database';
-import { users } from '../models/userModels';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
-        res.status(400).json({ message: 'Username and password are required.' });
+    if (!email || !password) {
+        res.status(400).json({ message: 'Email and password are required.' });
         return;
     }
 
@@ -19,15 +18,15 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
 
         // Insert new user into the database
         const result = await pool.query(
-            'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id',
-            [username, hashedPassword]
+            'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id',
+            [email, hashedPassword]
         );
 
         const userId = result.rows[0].id;
         res.status(201).json({ message: 'User registered successfully', userId });
     } catch (error) {
-        if ((error as any).code === '23505') { // Duplicate username
-            res.status(409).json({ message: 'Username already exists' });
+        if ((error as any).code === '23505') { // Duplicate email
+            res.status(409).json({ message: 'Email already exists' });
         } else {
             console.error('Error registering user:', error);
             res.status(500).json({ message: 'Internal server error' });
@@ -36,27 +35,27 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
 };
 
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
-        res.status(400).json({ message: 'Username and password are required.' });
+    if (!email || !password) {
+        res.status(400).json({ message: 'Email and password are required.' });
         return;
     }
 
     try {
-        // Find the user by username
-        const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+        // Find the user by email
+        const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
         const user = result.rows[0];
 
         if (!user) {
-            res.status(400).json({ message: 'Invalid username or password.' });
+            res.status(400).json({ message: 'Invalid email or password.' });
             return;
         }
 
         // Compare the password
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-            res.status(400).json({ message: 'Invalid username or password.' });
+            res.status(400).json({ message: 'Invalid email or password.' });
             return;
         }
 
@@ -68,4 +67,3 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
