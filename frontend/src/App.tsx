@@ -14,7 +14,7 @@ const App: React.FC = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Dashboard />} /> 
-          <Route path="/home" element={<Trending />} /> 
+          <Route path="/trending" element={<Trending />} /> 
           <Route path="/subscriptions" element={<Subscriptions />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
