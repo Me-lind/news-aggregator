@@ -1,16 +1,23 @@
-// src/components/NewsCard.tsx
 import React from 'react';
 
 interface NewsCardProps {
     title: string;
-    sentiment: 'positive' | 'neutral' | 'negative'| string;
+    description: string | null;
+    url: string;
+    urlToImage: string | null;
+    publishedAt: string;
 }
 
-const NewsCard: React.FC<NewsCardProps> = ({ title, sentiment }) => {
+const NewsCard: React.FC<NewsCardProps> = ({ title, description, url, urlToImage, publishedAt }) => {
     return (
-        <div className={`news-card ${sentiment}`}>
+        <div className="news-card">
+            {urlToImage && <img src={urlToImage} alt={title} className="news-image" />}
             <h2>{title}</h2>
-            <p>Sentiment: {sentiment}</p>
+            <p>{description}</p>
+            <p><strong>Published:</strong> {new Date(publishedAt).toLocaleDateString()}</p>
+            <a href={url} target="_blank" rel="noopener noreferrer">
+                Read more
+            </a>
         </div>
     );
 };

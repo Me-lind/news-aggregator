@@ -1,7 +1,6 @@
-// src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
+import Trending from './pages/Trending';
 import Subscriptions from './pages/Subscriptions';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -14,11 +13,11 @@ const App: React.FC = () => {
       <div className="app">
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Dashboard />} /> 
+          <Route path="/home" element={<Trending />} /> 
           <Route path="/subscriptions" element={<Subscriptions />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Dashboard />} />
         </Routes>
       </div>
     </Router>

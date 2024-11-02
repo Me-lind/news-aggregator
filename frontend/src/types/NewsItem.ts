@@ -1,4 +1,13 @@
 export interface NewsItem {
+    source: {
+        id: string | null;
+        name: string;
+    };
+    author: string | null;
     title: string;
-    sentiment: 'positive' | 'neutral' | 'negative';
+    description: string | null;
+    url: string;
+    urlToImage: string | null;
+    publishedAt: string;
+    content: string;
 }
