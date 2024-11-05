@@ -5,7 +5,7 @@ import { NewsItem } from '../types/NewsItem';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 
-const topics = ['general', 'business', 'finance', 'entertainment', 'technology', 'sports', 'forex'];
+const topics = ['general','politics','business', 'finance', 'entertainment', 'technology', 'sports', 'forex'];
 
 const Dashboard: React.FC = () => {
     const [selectedTopic, setSelectedTopic] = useState('general');

@@ -1,3 +1,4 @@
+// src/components/SubscriptionCard.tsx
 import React from 'react';
 import api from '../services/api';
 
@@ -9,7 +10,7 @@ interface SubscriptionCardProps {
 const SubscriptionCard: React.FC<SubscriptionCardProps> = ({ topic, onUnsubscribe }) => {
     const handleUnsubscribe = async () => {
         try {
-            await api.post('/api/unsubscribe', { topic });
+            await api.delete('/api/unsubscribe', { data: { topic } });
             onUnsubscribe(topic); 
         } catch (error) {
             console.error('Unsubscription error', error);
@@ -17,9 +18,14 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({ topic, onUnsubscrib
     };
 
     return (
-        <div className="subscription-card">
-            <h2>{topic}</h2>
-            <button onClick={handleUnsubscribe}>Unsubscribe</button>
+        <div className="p-4 bg-gray-100 rounded shadow-md flex justify-between items-center">
+            <h2 className="text-lg font-semibold">{topic}</h2>
+            <button
+                onClick={handleUnsubscribe}
+                className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition-colors"
+            >
+                Unsubscribe
+            </button>
         </div>
     );
 };

@@ -1,8 +1,9 @@
 // src/pages/Login.tsx
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface LoginProps {
     setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,9 +20,9 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
             const response = await api.post('/api/auth/login', { email, password });
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('tokenTimestamp', Date.now().toString()); // Set timestamp
-            setIsLoggedIn(true); // Update login state
-            toast.success('Login successful!🤗🎉')
-            navigate('/dashboard'); // Redirect to dashboard
+            setIsLoggedIn(true);
+            toast.success('Login successful!');
+            navigate('/dashboard');
         } catch (error) {
             console.error('Login error', error);
             toast.error('Login failed. Please try again.');
@@ -29,7 +30,7 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-400 to-purple-600">
             <form onSubmit={handleLogin} className="bg-white p-8 rounded-lg shadow-lg w-80">
                 <h1 className="text-2xl font-bold mb-6">Login</h1>
                 <label className="block mb-4">
@@ -56,9 +57,22 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
                 >
                     Login
                 </button>
+
+                {/* Register and Forgot Password Links */}
+                <div className="flex flex-col items-center mt-4 space-y-2">
+                    <p className="text-gray-600">Don't Have an Account?</p>
+                    <div className="flex space-x-4">
+                        <Link to="/register" className="text-blue-600 hover:underline">
+                            Register
+                        </Link>
+                        <Link to="/forgot-password" className="text-blue-600 hover:underline">
+                            Forgot Password?
+                        </Link>
+                    </div>
+                </div>
+
             </form>
             <ToastContainer />
-
         </div>
     );
 };

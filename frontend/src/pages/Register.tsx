@@ -25,7 +25,7 @@ const Register: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-400 to-purple-600">
             <form onSubmit={handleRegister} className="bg-white p-8 rounded-lg shadow-lg w-80">
                 <h1 className="text-2xl font-bold mb-6">Register</h1>
                 <label className="block mb-4">

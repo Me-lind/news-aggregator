@@ -11,9 +11,6 @@ const Navbar: React.FC = () => {
             <Link to="/trending" className="mb-4 hover:text-gray-400">
                 Trending
             </Link>
-            <Link to="/subscriptions" className="mb-4 hover:text-gray-400">
-                Subscriptions
-            </Link>
             <Link to="/profile" className="hover:text-gray-400">
                 Profile
             </Link>
