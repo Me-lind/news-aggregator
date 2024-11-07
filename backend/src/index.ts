@@ -7,6 +7,7 @@ import newsRoutes from './routes/newsRoutes';
 import authRoutes from './routes/authRoutes';
 import subscriptionRoutes from './routes/subscriptionRoutes';
 import { startNewsPolling } from './services/newsPollingService';
+import userRoutes from './routes/userRoutes';
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.get('/', (req, res) => {
 
 // Set up routes
 app.use('/api', newsRoutes);
+app.use('/user-details', userRoutes)
 app.use('/api/auth', authRoutes);
 app.use('/api', subscriptionRoutes);
 
