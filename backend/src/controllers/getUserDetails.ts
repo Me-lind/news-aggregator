@@ -2,10 +2,9 @@ import { Request, Response } from 'express';
 import pool from '../config/database';
 
 export const getUserDetails = async (req: Request, res: Response): Promise<void> => {
-    const userId = (req as any).user.userId; // assuming user ID is attached by the auth middleware
+    const userId = (req as any).user.userId;
 
     try {
-        // Fetch user email
         const userResult = await pool.query('SELECT email FROM users WHERE id = $1', [userId]);
         const user = userResult.rows[0];
 
@@ -14,7 +13,6 @@ export const getUserDetails = async (req: Request, res: Response): Promise<void>
             return;
         }
 
-        // Respond with user email and subscriptions
         res.status(200).json({
             email: user.email,
         });
