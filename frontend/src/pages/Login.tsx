@@ -1,4 +1,3 @@
-// src/pages/Login.tsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
@@ -19,7 +18,7 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
         try {
             const response = await api.post('/api/auth/login', { email, password });
             localStorage.setItem('token', response.data.token);
-            localStorage.setItem('tokenTimestamp', Date.now().toString()); // Set timestamp
+            localStorage.setItem('tokenTimestamp', Date.now().toString()); 
             setIsLoggedIn(true);
             toast.success('Login successful!');
             navigate('/dashboard');
@@ -58,13 +57,12 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
                     Login
                 </button>
 
-                {/* Register and Forgot Password Links */}
                 <div className="flex flex-col items-center mt-4 space-y-2">
                     <p className="text-gray-600">Don't Have an Account?</p>
+                    <Link to="/register" className="text-blue-600 hover:underline">
+                        Register
+                    </Link>
                     <div className="flex space-x-4">
-                        <Link to="/register" className="text-blue-600 hover:underline">
-                            Register
-                        </Link>
                         <Link to="/forgot-password" className="text-blue-600 hover:underline">
                             Forgot Password?
                         </Link>

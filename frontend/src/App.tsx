@@ -7,34 +7,32 @@ import Dashboard from './pages/Dashboard';
 import Navbar from './components/Navbar';
 import Profile from './pages/Profile';
 
-const TOKEN_EXPIRATION_TIME = 20 * 60 * 1000; // 20 minutes in milliseconds
+const TOKEN_EXPIRATION_TIME = 20 * 60 * 1000; 
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
-  // Logout function to clear token and state
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('tokenTimestamp');
     setIsLoggedIn(false);
   };
 
-  // Check token expiration every minute
   useEffect(() => {
     const interval = setInterval(() => {
       const tokenTimestamp = localStorage.getItem('tokenTimestamp');
       if (tokenTimestamp && Date.now() - parseInt(tokenTimestamp) > TOKEN_EXPIRATION_TIME) {
-        handleLogout(); // Logout if token is expired
+        handleLogout(); 
       }
     }, 60000); 
 
-    return () => clearInterval(interval); // Clear interval on component unmount
+    return () => clearInterval(interval); 
   }, []);
 
   return (
     <Router>
       <div className={`app flex ${isLoggedIn ? 'bg-white' : 'bg-gradient-to-r from-blue-400 to-purple-600 min-h-screen'}`}>
-      {isLoggedIn && <Navbar />}
+      {isLoggedIn && <Navbar handleLogout={handleLogout} />}
       <div className={`${isLoggedIn ? 'flex-grow p-8 lg:ml-64 bg-gray-100' : 'flex-grow flex items-center justify-center'}`}>
       <Routes>
             <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
