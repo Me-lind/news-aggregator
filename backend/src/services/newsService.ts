@@ -6,7 +6,7 @@ dotenv.config()
 const NEWS_API_KEY = process.env.NEWS_API_KEY as string;
 const BASE_URL = 'https://newsapi.org/v2';
 
-export const fetchNewsByTopic = async (topic: string, from?: string) => {
+export const fetchNewsByTopic = async (topic: string ) => {
     try {
         const response = await axios.get(`${BASE_URL}/everything`, {
             headers: {
@@ -14,10 +14,10 @@ export const fetchNewsByTopic = async (topic: string, from?: string) => {
             },
             params: {
                 q: topic,
+                searchIn: "content",
                 language:"en",
-                from: from, // Only fetch articles published after this date
-                apiKey: NEWS_API_KEY,
                 sortBy: 'publishedAt',
+                pageSize:20
             },
     
         });

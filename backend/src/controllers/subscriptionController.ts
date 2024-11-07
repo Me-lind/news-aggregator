@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import pool from '../config/database';
 
-// Add a subscription to a specific topic for a user
 export const addSubscription = async (req: Request, res: Response): Promise<void> => {
     const userId = (req as any).user.userId; 
     const { topic } = req.body;
@@ -12,7 +11,6 @@ export const addSubscription = async (req: Request, res: Response): Promise<void
     }
 
     try {
-        // Insert new subscription
         await pool.query(
             'INSERT INTO subscriptions (user_id, topic) VALUES ($1, $2)',
             [userId, topic]
@@ -24,7 +22,6 @@ export const addSubscription = async (req: Request, res: Response): Promise<void
     }
 };
 
-// Remove a subscription from a specific topic for a user
 export const removeSubscription = async (req: Request, res: Response): Promise<void> => {
     const userId = (req as any).user.userId;
     const { topic } = req.body;
@@ -35,7 +32,6 @@ export const removeSubscription = async (req: Request, res: Response): Promise<v
     }
 
     try {
-        // Delete the subscription
         const result = await pool.query(
             'DELETE FROM subscriptions WHERE user_id = $1 AND topic = $2',
             [userId, topic]
@@ -52,12 +48,10 @@ export const removeSubscription = async (req: Request, res: Response): Promise<v
     }
 };
 
-// Get all subscriptions for the authenticated user
 export const getSubscriptions = async (req: Request, res: Response): Promise<void> => {
     const userId = (req as any).user.userId;
 
     try {
-        // Fetch all subscriptions for the user
         const result = await pool.query(
             'SELECT topic FROM subscriptions WHERE user_id = $1',
             [userId]

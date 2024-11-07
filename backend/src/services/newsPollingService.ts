@@ -13,7 +13,7 @@ export const startNewsPolling = (io: Server) => {
             const topics = await getUniqueSubscribedTopics();
 
             for (const topic of topics) {
-                const newsData = await fetchNewsByTopic(topic, latestTimestamps[topic]);
+                const newsData = await fetchNewsByTopic(topic);
 
                 if (newsData.length > 0) {
                     io.to(topic).emit('newsUpdate', newsData);
