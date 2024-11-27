@@ -15,7 +15,7 @@ export const fetchNewsByTopic = async (topic: string, from?: string) => {
             params: {
                 q: topic,
                 language:"en",
-                from: from, // Only fetch articles published after this date
+                from: from, 
                 apiKey: NEWS_API_KEY,
                 sortBy: 'publishedAt',
             },

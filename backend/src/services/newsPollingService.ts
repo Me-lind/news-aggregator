@@ -1,24 +1,39 @@
 import { fetchNewsByTopic } from './newsService';
 import { getUniqueSubscribedTopics } from './subscriptionService';
+import { processArticlesForSentiment } from './batchAnalysis';
+import { notifySubscribers } from './notifySubscribers';
 import { Server } from 'socket.io';
 
-const POLLING_INTERVAL = 10 * 60 * 1000; // Poll every 10 minutes
-const latestTimestamps: { [topic: string]: string } = {}; // Store last fetched timestamp for each topic
+const POLLING_INTERVAL = 20 * 60 * 1000; 
+const latestTimestamps: { [topic: string]: string } = {};
 
 export const startNewsPolling = (io: Server) => {
     setInterval(async () => {
         console.log('Polling for new news updates...');
+
         try {
-            // Get all unique topics with active subscriptions
             const topics = await getUniqueSubscribedTopics();
 
             for (const topic of topics) {
                 const newsData = await fetchNewsByTopic(topic, latestTimestamps[topic]);
 
-                if (newsData.length > 0) {
-                    io.to(topic).emit('newsUpdate', newsData);
+                if (newsData.articles.length > 0) {
+                    console.log(`New articles found for topic: ${topic}`);
 
-                    latestTimestamps[topic] = newsData[0].publishedAt;
+                    const processedArticles = processArticlesForSentiment(newsData.articles);
+
+                    io.to(topic).emit('newsUpdate', processedArticles);
+
+                    const trendingArticles = processedArticles.filter(
+                        article => article.score >= 0.6 
+                    );
+
+                    if (trendingArticles.length > 0) {
+                        console.log(`Trending articles identified for topic: ${topic}`);
+                        await notifySubscribers(topic, trendingArticles);
+                    }
+
+                    latestTimestamps[topic] = newsData.articles[0].publishedAt;
                 }
             }
         } catch (error) {
