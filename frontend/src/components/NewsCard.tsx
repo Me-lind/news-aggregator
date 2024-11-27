@@ -1,13 +1,6 @@
-// src/components/NewsCard.tsx
 import React from 'react';
+import { NewsCardProps } from '../props/NewsCard';
 
-interface NewsCardProps {
-    title: string;
-    description: string;
-    url: string;
-    urlToImage: string | null;
-    publishedAt: string;
-}
 
 const NewsCard: React.FC<NewsCardProps> = ({ title, description, url, urlToImage, publishedAt }) => {
     return (

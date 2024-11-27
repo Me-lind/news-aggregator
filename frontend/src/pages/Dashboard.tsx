@@ -11,7 +11,21 @@ const Dashboard: React.FC = () => {
     const [selectedTopic, setSelectedTopic] = useState('general');
     const [news, setNews] = useState<NewsItem[]>([]);
     const [subscribedTopics, setSubscribedTopics] = useState<string[]>([]);
+    const [username, setUsername] = useState('')
 
+useEffect(()=>{
+    const storedUsername = localStorage.getItem('username')
+    if (storedUsername){
+        setUsername(storedUsername)
+    }
+}, [])
+
+const getGreeting = () => {
+    const currentHour = new Date().getHours()
+    if (currentHour <12) return 'Good Morning'
+    if (currentHour< 18) return 'Good Afternoon'
+    return 'Good Evening'
+}
     useEffect(() => {
         const fetchNews = async () => {
             try {
@@ -19,6 +33,8 @@ const Dashboard: React.FC = () => {
                 setNews(response.data.articles);
             } catch (error) {
                 console.error('Failed to fetch news', error);
+                toast.error('Failed to fetch news');
+
             }
         };
 
@@ -31,7 +47,7 @@ const Dashboard: React.FC = () => {
                 const response = await api.get('/api/subscriptions');
                 setSubscribedTopics(response.data.subscriptions);
             } catch (error) {
-                console.error('Failed to fetch subscriptions', error);
+                toast.error('Failed to fetch subscriptions');
             }
         };
 
@@ -62,7 +78,7 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className="px-4 py-8 lg:px-8">
-            <h1 className="text-3xl font-bold text-center mb-8">Dashboard</h1>
+            <h1 className="text-2xl font-bold mb-6">{`${getGreeting()}, ${username}!`}</h1>
             <div className="flex flex-wrap justify-center gap-4 mb-6">
                 {topics.map((topic) => (
                     <button

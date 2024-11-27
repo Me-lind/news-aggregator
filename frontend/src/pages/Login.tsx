@@ -17,8 +17,13 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
         e.preventDefault();
         try {
             const response = await api.post('/api/auth/login', { email, password });
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('tokenTimestamp', Date.now().toString()); 
+
+            const data = response.data;
+            localStorage.setItem('token', data.token);
+
+            localStorage.setItem('username', data.username);
+
+            localStorage.setItem('tokenTimestamp', Date.now().toString());
             setIsLoggedIn(true);
             toast.success('Login successful!');
             navigate('/dashboard');
@@ -76,3 +81,5 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
 };
 
 export default Login;
+
+

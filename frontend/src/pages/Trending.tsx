@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import NewsCard from '../components/NewsCard';
 import { NewsItem } from '../types/NewsItem';
+import { toast } from 'react-toastify';
 
 const Trending: React.FC = () => {
     const [newsData, setNewsData] = useState<NewsItem[]>([]);
@@ -12,7 +13,9 @@ const Trending: React.FC = () => {
                 const response = await api.get('/api/news/trending'); 
                 setNewsData(response.data.articles); 
             } catch (error) {
-                console.error('Failed to fetch trending news', error);
+                console.error('Failed to fetch trending news', error)
+                toast.error('Failed to fetch trending news')
+
             }
         };
 

@@ -1,11 +1,7 @@
-// src/components/SubscriptionCard.tsx
 import React from 'react';
 import api from '../services/api';
+import { SubscriptionCardProps } from '../props/SubscriptionCard';
 
-interface SubscriptionCardProps {
-    topic: string;
-    onUnsubscribe: (topic: string) => void;
-}
 
 const SubscriptionCard: React.FC<SubscriptionCardProps> = ({ topic, onUnsubscribe }) => {
     const handleUnsubscribe = async () => {
